@@ -62,7 +62,7 @@ export class AppService {
   public myIssues(data): Observable<any>{
     console.log("jjjjjjjjjjjjjjjjjjjjjjjj"+data);
     
-    return this.http.get(this.url+'api/v1/issues/view/all'+'?authToken'+data);
+    return this.http.get(this.url+'/api/v1/issues/view/all'+'?authToken='+data);
   }
   
   public logout(): Observable<any> {

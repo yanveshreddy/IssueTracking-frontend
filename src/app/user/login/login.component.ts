@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
           if (apiResponse.status === 200) {
             console.log(apiResponse)
 
-             Cookie.set('authtoken', apiResponse.data.authToken);
+             Cookie.set('authToken', apiResponse.data.authToken);
             
              Cookie.set('receiverId', apiResponse.data.userDetails.userId);
             

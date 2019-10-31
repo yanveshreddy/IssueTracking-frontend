@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AgGridModule } from 'ag-grid-angular';
+//import { AgGridModule } from 'ag-grid-angular';
 import { AppService} from '../../app.service'
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 @Component({
@@ -24,14 +24,16 @@ export class MyIssuesComponent implements OnInit {
   ngOnInit() {
 
     let authToken= Cookie.get('authToken');
+    //console.log("AUTHTOKEN====="+authToken);
     this.myissues = this.appservice.myIssues(authToken).subscribe(
 
       data => {
         this.myissues = data["data"];
-       // console.log("Anvesh");
+        console.log("successs");
         console.log(this.myissues);
       },
       error => {
+       // console.log("Anvesh error");
         console.log(error.errormessage);
       }
     )

@@ -11,6 +11,7 @@ import { AppService } from '../app.service';
 import { AgGridModule } from 'ag-grid-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IssuerootComponent } from './issueroot/issueroot.component';
+import { IssueRouteguardService } from './issue-routeguard.service';
 
 
 
@@ -24,16 +25,14 @@ import { IssuerootComponent } from './issueroot/issueroot.component';
     AgGridModule.withComponents([]),
     RouterModule.forChild([
 
-          { path: 'my-issues', component: MyIssuesComponent, pathMatch: 'full' },
-          { path: 'all-issues', component: AllIssuesComponent, pathMatch: 'full' },
-          { path: 'issue/:issueid', component: IssueViewComponent },
-          { path: 'create-issue', component: CreateIssueComponent }
+          { path: 'my-issues', component: MyIssuesComponent,canActivate:[IssueRouteguardService]},
+          { path: 'all-issues', component: AllIssuesComponent, canActivate:[IssueRouteguardService]},
+          { path: 'issue/:issueid', component: IssueViewComponent,canActivate:[IssueRouteguardService] },
+          { path: 'create-issue', component: CreateIssueComponent,canActivate:[IssueRouteguardService] }
         
-      
-
     ])
   ],
-  providers: [AppService],
+  providers: [AppService,IssueRouteguardService],
   bootstrap:[IssuerootComponent]
 
 })
