@@ -1,1 +1,17 @@
 <app-issueroot fxLayout="column"></app-issueroot>
+
+<br><br>
+<span class="ui-float-label">
+        <input id="float-input" type="text" size="30" pInputText> 
+        <label for="float-input">Issue Title</label>
+    </span>
+
+    <span class="ui-float-label">
+            <input id="float-input" type="text" size="30" pInputText> 
+            <label for="float-input">Issue Title</label>
+        </span>
+        
+        <p-autoComplete [(ngModel)]="text" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>
+        <p-editor formControlName="description" [style]="{'height':'320px'}"></p-editor>
+
+        <!-- <mdb-file-upload (fileRemoved)="onFileRemove()" (fileAdded)="onFileAdd($event)"></mdb-file-upload> -->

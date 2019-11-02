@@ -1,14 +1,44 @@
 <app-issueroot fxLayout="column"></app-issueroot>
-  <br>
-  
-        <ag-grid-angular 
+<br>
 
-            style="width: 100%; height: 80%; padding-left: 10%;" 
-            class="ag-theme-balham"
-            [rowData]="rowData"
-            [columnDefs]="columnDefs"
-        >
+<p-table #dt [columns]="cols" [value]="rows" [paginator]="true" [rows]="10">
+  <ng-template pTemplate="caption">
+    <div style="text-align: right">
+      <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+      <input type="text" pInputText size="50" placeholder="Global Filter"
+        (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+    </div>
+  </ng-template>
 
-        </ag-grid-angular>
-    
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+        {{col.header}}
+        <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+          ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+        </p-sortIcon>
 
+      </th>
+    </tr>
+    <tr>
+      <th *ngFor="let col of columns" [ngSwitch]="col.field">
+        <input *ngSwitchCase="'issueId'" pInputText type="text"
+          (input)="dt.filter($event.target.value, col.field, 'contains')">
+        <input *ngSwitchCase="'title'" pInputText type="text"
+          (input)="dt.filter($event.target.value, col.field, 'contains')">
+        <p-dropdown *ngSwitchCase="'status'" [options]="statusvalues" [style]="{'width':'100%'}"
+          (onChange)="dt.filter($event.value, col.field, 'equals')"></p-dropdown>
+        <input *ngSwitchCase="'reporter'" pInputText type="text"
+          (input)="dt.filter($event.target.value, col.field, 'contains')">
+
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr [pSelectableRow]="rowData" [ngClass]="rowData.statusvalues == Done ? 'status-done' : null">
+      <td *ngFor="let col of columns" >
+        {{rowData[col.field]}}
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

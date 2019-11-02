@@ -11,5 +11,13 @@ export class CreateIssueComponent implements OnInit {
 
   ngOnInit() {
   }
+  file: File;
 
+  onFileAdd(file: File) {
+  this.file = file;
+  }
+  
+  onFileRemove() {
+  this.file = null;
+  }
 }
