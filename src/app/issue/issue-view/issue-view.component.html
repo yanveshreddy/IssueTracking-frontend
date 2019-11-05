@@ -1,1 +1,69 @@
-<p>issue-view works!</p>
+<app-issueroot fxLayout="column"></app-issueroot>
+<br>
+
+<section class="sample-app-content">
+        <div class="container">
+    
+            <div class="row" style="text-align:left" *ngIf="editIssue">
+    
+                <div class="col-md-12">
+                    <h1>Create Issue:</h1>
+                    <form #editIssueForm="ngForm" (ngSubmit)="editIssue()">
+
+                        <div class="form-group">
+                            <label>Title:</label>
+                            <input type="text" name="issueTitle" [(ngModel)]="currentIssue.title"  class="form-control" 
+                                required autofocus>
+                        </div>
+    
+                        <!-- <div class="form-group">
+                            <label>Assignee:</label>
+                            <select [(ngModel)]="issueAssignee" name="issueAssignee"  class="form-control" multiple required autofocus>
+    
+                                    <option *ngFor="let user of users" [value]="user">{{user.name}}</option>
+    
+                                </select>
+                        
+                        </div> -->
+                        <div class="form-group">
+                                <label>Assignee:</label>
+    
+                        <br>
+                                <mat-form-field class="example-full-width text-capitalize">
+                                <mat-select placeholder="Assignee" name="issueAssignee" [(ngModel)]="currentIssue.assignee.name" multiple>
+                                  <mat-option class="text-capitalize" *ngFor="let user of users" [value]="user">
+                                    <!-- <mat-option class="text-capitalize" *ngFor="let user of users" [value]="user" [disabled]="anotherList.includes(user)"> -->
+                                    {{user.name}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                        </div>
+    
+    
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select [(ngModel)]="currentIssue.status" name="issueStatus"  class="form-control" required autofocus>
+    
+                                <option *ngFor="let status of statuslist" [value]="status">{{status}}</option>
+                            </select>
+                        </div>
+                      
+                        <div class="form-group">
+                                <label>Description:</label>
+                <app-ngx-editor name="issueDescription" [config]="editorConfig" [spellcheck]="true" [(ngModel)]="currentIssue.Description"></app-ngx-editor>
+                            <!-- <quill-editor [style]="{height: '130px'}" [(ngModel)]="issueDescription"
+                                [options]="editorConfig"  >
+                            </quill-editor> -->
+                        </div>
+    
+                        <p>
+                            <button type="submit" [disabled]="!editIssueForm.valid">Submit</button>
+                        </p>
+    
+                    </form>
+    
+                </div>
+            </div>
+    
+        </div>
+    </section>

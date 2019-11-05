@@ -1,17 +1,71 @@
 <app-issueroot fxLayout="column"></app-issueroot>
 
-<br><br>
-<span class="ui-float-label">
-        <input id="float-input" type="text" size="30" pInputText> 
-        <label for="float-input">Issue Title</label>
-    </span>
+<br>
 
-    <span class="ui-float-label">
-            <input id="float-input" type="text" size="30" pInputText> 
-            <label for="float-input">Issue Title</label>
-        </span>
-        
-        <p-autoComplete [(ngModel)]="text" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>
-        <p-editor formControlName="description" [style]="{'height':'320px'}"></p-editor>
+<section class="sample-app-content">
+    <div class="container">
 
-        <!-- <mdb-file-upload (fileRemoved)="onFileRemove()" (fileAdded)="onFileAdd($event)"></mdb-file-upload> -->
+        <div class="row" style="text-align:left">
+
+            <div class="col-md-12">
+                <h1>Create Issue:</h1>
+                <form #createIssueForm="ngForm" (ngSubmit)="createIssue()">
+                    <div class="form-group">
+                        <label>Title:</label>
+                        <!-- <input type="text"  
+                [(ngModel)]="user.firstName" required> -->
+                        <input type="text" name="issueTitle" [(ngModel)]="issueTitle" #title="ngModel" class="form-control" placeholder="enter issue title"
+                            required autofocus>
+                    </div>
+
+                    <!-- <div class="form-group">
+                        <label>Assignee:</label>
+                        <select [(ngModel)]="issueAssignee" name="issueAssignee"  class="form-control" multiple required autofocus>
+
+                                <option *ngFor="let user of users" [value]="user">{{user.name}}</option>
+
+                            </select>
+                    
+                    </div> -->
+                    <div class="form-group">
+                            <label>Assignee:</label>
+
+                    <br>
+                            <mat-form-field class="example-full-width text-capitalize">
+                            <mat-select placeholder="Assignee" name="issueAssignee" [(ngModel)]="issueAssignee" multiple>
+                              <mat-option class="text-capitalize" *ngFor="let user of users" [value]="user">
+                                <!-- <mat-option class="text-capitalize" *ngFor="let user of users" [value]="user" [disabled]="anotherList.includes(user)"> -->
+                                {{user.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select [(ngModel)]="issueStatus" name="issueStatus"  class="form-control" required autofocus>
+
+                            <option *ngFor="let status of statuslist" [value]="status">{{status}}</option>
+                        </select>
+                    </div>
+                  
+                    <div class="form-group">
+                            <label>Description:</label>
+            <app-ngx-editor name="issueDescription" [config]="editorConfig" [spellcheck]="true" [(ngModel)]="issueDescription"></app-ngx-editor>
+                        <!-- <quill-editor [style]="{height: '130px'}" [(ngModel)]="issueDescription"
+                            [options]="editorConfig"  >
+                        </quill-editor> -->
+                    </div>
+
+                    <p>
+                        <button type="submit" [disabled]="!createIssueForm.valid">Submit</button>
+                    </p>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</section>

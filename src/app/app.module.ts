@@ -13,6 +13,7 @@ import { UserModule } from './user/user.module';
 import {ToastrModule} from 'ngx-toastr';
 import { LoginComponent } from './user/login/login.component';
 import { IssueModule } from './issue/issue.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { IssueModule } from './issue/issue.module';
       {path:'*',component:LoginComponent},
       {path:'**',component:LoginComponent}
   ]),
+    BrowserAnimationsModule,
 ],
   providers: [AppService],
   bootstrap: [AppComponent]
