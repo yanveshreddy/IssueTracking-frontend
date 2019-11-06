@@ -2,6 +2,7 @@ import { Component, OnInit,ViewContainerRef } from '@angular/core';
 import { AppService } from './../../app.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+//import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-signup',
@@ -20,7 +21,8 @@ export class SignupComponent implements OnInit {
   constructor(  
     public appService: AppService,
     public router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+   // public snackBar:MatSnackBar
     ) {
      
      }
@@ -51,15 +53,12 @@ export class SignupComponent implements OnInit {
 
     } else if (!this.password) {
       this.toastr.warning('enter password')
-     
-
     } 
     //else if (!this.apiKey) {
     //   this.toastr.warning('Enter your API key')
 
     // } 
     else {
-
       let data = {
         firstName: this.firstName,
         lastName: this.lastName,

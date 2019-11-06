@@ -23,7 +23,8 @@ import {
   MatSelectModule,
   MatRadioModule,
   MatButtonModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatIconModule
  } from '@angular/material';
 
 // import {} from 'angularjs-dropdown-multiselect'
@@ -36,6 +37,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {EditorModule} from 'primeng/editor';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {FileUploadModule} from 'primeng/fileupload';
+//import { IssueEditComponent } from './issue-edit/issue-edit.component';
 //import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 //import{QuillEditorModule } from 'ngx-quill-editor';
 //import * as quills from 'quill';
@@ -48,11 +50,13 @@ import {FileUploadModule} from 'primeng/fileupload';
     CommonModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     NgxEditorModule,
     TooltipModule,
     MatSnackBarModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatIconModule,
     RouterModule.forChild([
 
       { path: 'my-issues', component: MyIssuesComponent,canActivate:[IssueRouteguardService]},

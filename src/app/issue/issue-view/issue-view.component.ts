@@ -4,6 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import {Location} from '@angular/common';
+import { FormControl } from '@angular/forms';
+//import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-issue-view',
@@ -12,11 +14,19 @@ import {Location} from '@angular/common';
   providers:[Location]
 })
 export class IssueViewComponent implements OnInit {
+
   public currentIssue;
+  public currentIssueId;
+
   public statuslist = ["in- progress", "in- backlog", "in- testing", "Done"];
+
   users=[];
   userId:any;
   name:string;
+
+  public issueComment;
+  public selectedAssignee=[];
+
   public editorConfig = {
     "editable": true,
     "spellcheck": true,
@@ -38,35 +48,45 @@ export class IssueViewComponent implements OnInit {
       ["link", "unlink"]
     ]
   }
+
+  assigneeControl=new FormControl();
   constructor(public appService: AppService, private _route: ActivatedRoute, private router: Router, public toastr: ToastrService,public snackBar:MatSnackBar,private location:Location) { }
 
   ngOnInit() {
 
-    this.getALLUsers();
-
     this.userId = this.appService.getUserInfoFromLocalstorage().userId;
     this.name = `${this.appService.getUserInfoFromLocalstorage().firstName} ${this.appService.getUserInfoFromLocalstorage().lastName}`
 
+    this.getALLUsers();
+    
+    this.currentIssueId = this._route.snapshot.paramMap.get("issueId");
 
-    let myIssueId = this._route.snapshot.paramMap.get("issueId");
-
-     this.appService.getIssueData(myIssueId).subscribe(
+     this.appService.getIssueData(this.currentIssueId).subscribe(
 
       data => {
         this.currentIssue = data["data"];
         console.log("Anvesh");
         console.log(this.currentIssue);
+        this.currentIssue.assignee.forEach(element => {
+          
+          this.selectedAssignee.push(element.name);
+          });
+         
+          console.log("annnnnnnnnnnnnnnvvvvvvvvvvveeeeeee"+this.selectedAssignee)
+
+        
+        this.assigneeControl.setValue(this.selectedAssignee);
+      
       },
       error => {
         console.log(error.errormessage);
       }
-
     )
-
-
+    //console.log("annnnnnnnnnnnnnnvvvvvvvvvvveeeeeee"+ this.currentIssue)
+   //end of getALLUsers
+  
   }
-
-  public getALLUsers() {
+public getALLUsers() {
 
     this.appService.getAllUsers().subscribe(
       data => {
@@ -98,14 +118,42 @@ export class IssueViewComponent implements OnInit {
 
   }//end of get all users.
 
-public editIssue(){
+  public editIssue=()=>{
 
-  this.appService.editIssueData(this.currentIssue).subscribe(
+    this.appService.editIssueData(this.currentIssue).subscribe(
+  
+      data => {
+        //this.currentBlogData=data["data"];
+        console.log(data["data"]);
+        this.snackBar.open("Blog Edited Succesfully!", 'Success!');
+        setTimeout(() => {
+          this.router.navigate(['/all-issues']);
+        }, 1000);
+  
+      },
+      error => {
+        console.log(error.errormessage);
+        this.toastr.error("Error Occured!", 'oops!')
+      }
+    )
+  
+  }
+
+public addComment=()=>{
+
+  let commentData = {
+    issueId: this.currentIssueId,
+    comment: this.issueComment,
+    commenterId:this.userId,
+    commenterName:this.name
+  }
+
+  this.appService.postCommentData(commentData).subscribe(
 
     data => {
       //this.currentBlogData=data["data"];
       console.log(data["data"]);
-      this.snackBar.open("Blog Edited Succesfully!", 'Success!');
+      this.toastr.success("Comment Posted Succesfully!", 'Success!');
       setTimeout(() => {
         this.router.navigate(['/all-issues']);
       }, 1000);
@@ -119,7 +167,30 @@ public editIssue(){
 
 }
 
+public addWatchee=()=>{
 
+  let watcheeData = {
+    issueId: this.currentIssueId,
+   // comment: this.issueComment,
+    watcherId:this.userId,
+    watcherName:this.name
+  }
+
+  this.appService.addWatchee(watcheeData).subscribe(
+
+  data => {
+    //this.currentBlogData=data["data"];
+    console.log(data["data"]);
+    this.toastr.success("you added as watcher to this issue Succesfully!", 'Success!');
+  },
+  error => {
+    console.log(error.errormessage);
+    this.toastr.error("Error Occured!", 'oops!')
+  }
+)
+
+
+}
   public getPrevPage()
   {
     this.location.back();

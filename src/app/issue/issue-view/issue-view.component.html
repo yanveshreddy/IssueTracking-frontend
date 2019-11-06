@@ -2,12 +2,12 @@
 <br>
 
 <section class="sample-app-content">
-        <div class="container">
+        <div class="container" *ngIf="currentIssue">
     
-            <div class="row" style="text-align:left" *ngIf="editIssue">
+            <div class="row" style="text-align:left" >
     
                 <div class="col-md-12">
-                    <h1>Create Issue:</h1>
+                    <h1>Issue Description:</h1>
                     <form #editIssueForm="ngForm" (ngSubmit)="editIssue()">
 
                         <div class="form-group">
@@ -30,8 +30,8 @@
     
                         <br>
                                 <mat-form-field class="example-full-width text-capitalize">
-                                <mat-select placeholder="Assignee" name="issueAssignee" [(ngModel)]="currentIssue.assignee.name" multiple>
-                                  <mat-option class="text-capitalize" *ngFor="let user of users" [value]="user">
+                                <mat-select name="selectedAssignee" [(ngModel)]="selectedAssignee" multiple>
+                                  <mat-option class="text-capitalize" *ngFor="let user of users" [value]="user" >
                                     <!-- <mat-option class="text-capitalize" *ngFor="let user of users" [value]="user" [disabled]="anotherList.includes(user)"> -->
                                     {{user.name}}
                                   </mat-option>
@@ -61,7 +61,42 @@
                         </p>
     
                     </form>
-    
+
+                    <button mat-fab color="primary" (click)="addWatchee()" *ngIf="userId !== currentIssue.reporter[0].userId  && !currentIssue.assignee.includes(userId)">
+                            <mat-icon>visiblity</mat-icon>
+                          </button>
+
+                    <!-- <mat-icon onclick="addWatchee($event)">visiblity</mat-icon> -->
+                    <label>Comment:</label>
+
+                    <form #commentForm="ngForm" (ngSubmit)="addComment()">
+                    <mat-form-field class="example-full-width">
+                        <textarea matInput placeholder="Issue Description" [(ngModel)]="issueComment"
+                            name="issueComment" required autofocus></textarea>
+                    </mat-form-field> 
+
+                    <p>
+                        <button type="submit" [disabled]="!commentForm.valid">Post</button>
+                    </p>
+
+                    </form>
+
+                    <div fxLayout="column" *ngIf="currentIssue">
+
+                           <div *ngIf="currentIssue.comments?.length!=undefined && currentBlog.comments.length>0">
+                            <span *ngFor="let com of currentBlog.comments">
+                                
+                                <p>{{com.userName}}:</p>
+                                <br>
+                                <p>{{com.comment}}</p>
+                            
+                            </span>
+                        
+                        </div>
+
+                    </div>
+
+
                 </div>
             </div>
     

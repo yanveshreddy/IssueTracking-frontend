@@ -15,16 +15,16 @@ export class CreateIssueComponent implements OnInit {
 
 
   public issueTitle: String;
-  public issueAssignee=[];
-  public issueDescription: any= '<p>Hi</p>';
+  public issueAssignee = [];
+  public issueDescription: any;
   public issueStatus: String;
   public selectFile: File = null;
   public imageUrl: string;
   public warning: boolean = false;
   message: string;
-  users=[];
-  userId:any;
-  name:string;
+  users = [];
+  userId: any;
+  name: string;
 
   public statuslist = ["in- progress", "in- backlog", "in- testing", "Done"];
 
@@ -50,7 +50,7 @@ export class CreateIssueComponent implements OnInit {
     ]
   }
 
-  constructor(public appService: AppService, private _route: ActivatedRoute, private router: Router, public toastr: ToastrService,public snackBar:MatSnackBar) {
+  constructor(public appService: AppService, private _route: ActivatedRoute, private router: Router, public toastr: ToastrService, public snackBar: MatSnackBar) {
 
   }
 
@@ -84,9 +84,7 @@ export class CreateIssueComponent implements OnInit {
 
       }, (err) => {
 
-        this.snackBar.open(`some error occured`, "Dismiss", {
-          duration: 5000,
-        });
+        this.toastr.error(`some error occured`, "Dismiss");
 
         setTimeout(() => {
           this.router.navigate(['/create-issue'])
@@ -96,37 +94,47 @@ export class CreateIssueComponent implements OnInit {
 
   }//end of get all users.
   public createIssue(): any {
-    let issueData = {
-      title: this.issueTitle,
-      assignee: this.issueAssignee,
-      description: this.issueDescription,
-      status: this.issueStatus
+    if (!this.issueDescription) {
+
+      this.toastr.warning('enter issue Description')
+
+
     }
+    else {
 
-    console.log(issueData);
+      let issueData = {
+        title: this.issueTitle,
+        assignee: this.issueAssignee,
+        description: this.issueDescription,
+        status: this.issueStatus
 
-    this.appService.createIssue(issueData).subscribe(
-
-      data => {
-        //this.currentBlog = data["data"];
-        console.log("Issue Posted");
-        console.log(data);
-
-        this.snackBar.open('Issue Posted!', 'Success!');
-        setTimeout(() => {
-
-          this.router.navigate(['/all-issues']);
-        }, 1000)
+      }
 
 
+      console.log(issueData);
 
-      },
-      error => {
+      this.appService.createIssue(issueData).subscribe(
 
-        console.log(error.errormessage);
-        this.toastr.error('Some Error Occured!', 'Oops!');
-      })
+        data => {
+          //this.currentBlog = data["data"];
+          console.log("Issue Posted");
+          console.log(data);
 
+          this.toastr.success('Issue Posted!', 'Success!');
+          setTimeout(() => {
+
+            this.router.navigate(['/all-issues']);
+          }, 1000)
+
+
+
+        },
+        error => {
+
+          console.log(error.errormessage);
+          this.toastr.error('Some Error Occured!', 'Oops!');
+        })
+
+    }
   }
-
 }

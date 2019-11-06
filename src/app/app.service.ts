@@ -87,19 +87,24 @@ export class AppService {
 
   public allIssues(): Observable<any>{
     // console.log("jjjjjjjjjjjjjjjjjjjjjjjj"+data);
-     
+
      return this._http.get(`${this.url}/api/v1/issues/view/all?authToken=${Cookie.get('authToken')}`);
+
    }
 
   public createIssue(data):Observable<any>{
 
     let reporter = [];
+
     let name = `${this.getUserInfoFromLocalstorage().firstName} ${this.getUserInfoFromLocalstorage().lastName}`
     let userId = this.getUserInfoFromLocalstorage().userId
+
+
     let reporterObj = {
-      name: name,
-      userId: userId
+      userId: userId,
+      name: name
     }
+
     reporter.push(reporterObj);
 
     // stringify the object for sending
@@ -133,6 +138,49 @@ export class AppService {
       return this._http.put(`${this.url}/api/v1/issues/${currentIssueID}/edit?authToken=${Cookie.get('authToken')}`,data)
     }
   
+    public postCommentData(data):any{
+
+    let currentIssueID=data.issueId;
+    //let name = `${this.getUserInfoFromLocalstorage().firstName} ${this.getUserInfoFromLocalstorage().lastName}`
+   // let userId = this.getUserInfoFromLocalstorage().userId
+   let comments = [];
+
+    let commenterObj = {
+      userId: data.commenterId,
+      name: data.commenterName,
+      comment:data.comment
+    }
+
+    comments.push(commenterObj);
+
+    // stringify the object for sending
+    let commentsArray = JSON.stringify(comments)
+    const params = new HttpParams()
+    .set('comments', commentsArray)
+
+      return this._http.put(`${this.url}/api/v1/issues/${currentIssueID}/addComment?authToken=${Cookie.get('authToken')}`,params)
+
+    }
+    public addWatchee=(data):any =>{
+
+      let currentIssueID=data.issueId;
+    //let name = `${this.getUserInfoFromLocalstorage().firstName} ${this.getUserInfoFromLocalstorage().lastName}`
+   // let userId = this.getUserInfoFromLocalstorage().userId
+   let watchers = [];
+    let watcherObj = {
+      watcherId: data.watcherId,
+      watcherName: data.watcherName
+    }
+    watchers.push(watcherObj);
+
+    // stringify the object for sending
+    let watchersArray = JSON.stringify(watchers)
+    const params = new HttpParams()
+    .set('comments', watchersArray)
+
+      return this._http.put(`${this.url}/api/v1/issues/${currentIssueID}/addWatchee?authToken=${Cookie.get('authToken')}`,params)
+
+    }
 
   private handleError(err: HttpErrorResponse) {
 
