@@ -52,6 +52,7 @@ public allissues;
       {header: 'Issue Title', field: 'title'},
       {header: 'Status', field: 'status'},
       {header: 'Reporter', field: 'reportername'},
+      {header:'Created',field:'created'}
      // {header: 'Date', field: 'created'}   
    ];
 

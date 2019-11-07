@@ -24,7 +24,9 @@ import {
   MatRadioModule,
   MatButtonModule,
   MatSnackBarModule,
-  MatIconModule
+  MatTooltipModule,
+  MatIconModule,
+  MatTooltip
  } from '@angular/material';
 
 // import {} from 'angularjs-dropdown-multiselect'
@@ -56,6 +58,7 @@ import {FileUploadModule} from 'primeng/fileupload';
     MatSnackBarModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatTooltipModule,
     MatIconModule,
     RouterModule.forChild([
 

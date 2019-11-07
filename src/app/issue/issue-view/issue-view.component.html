@@ -1,104 +1,109 @@
 <app-issueroot fxLayout="column"></app-issueroot>
 <br>
 
-<section class="sample-app-content">
-        <div class="container" *ngIf="currentIssue">
-    
-            <div class="row" style="text-align:left" >
-    
-                <div class="col-md-12">
-                    <h1>Issue Description:</h1>
-                    <form #editIssueForm="ngForm" (ngSubmit)="editIssue()">
+        <div class="heading" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <h1 >Issue Description:</h1>
+</div>
+<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" *ngIf="currentIssue">
+        <button  mat-fab color="primary" aria-hidden="false" (click)="addWatchee()"
+            *ngIf="userId !== currentIssue.reporter[0].userId  && !currentIssue.assignee.includes(userId)">
+            <mat-icon>visiblity</mat-icon>
+        </button>
+        </div>
 
-                        <div class="form-group">
-                            <label>Title:</label>
-                            <input type="text" name="issueTitle" [(ngModel)]="currentIssue.title"  class="form-control" 
-                                required autofocus>
+
+<section class="sample-app-content">
+    <div class="container" *ngIf="currentIssue">
+
+        <form #editIssueForm="ngForm" (ngSubmit)="editIssue()">
+
+            <div class="row" style="text-align:left">
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+                        <label>Title:</label>
+                                <div class="form-group">
+
+                                    <input type="text" name="issueTitle" [(ngModel)]="currentIssue.title"
+                                        class="form-control" required autofocus>
+                                </div>
+                            
                         </div>
-    
-                        <!-- <div class="form-group">
-                            <label>Assignee:</label>
-                            <select [(ngModel)]="issueAssignee" name="issueAssignee"  class="form-control" multiple required autofocus>
-    
-                                    <option *ngFor="let user of users" [value]="user">{{user.name}}</option>
-    
-                                </select>
-                        
-                        </div> -->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
                         <div class="form-group">
-                                <label>Assignee:</label>
-    
-                        <br>
-                                <mat-form-field class="example-full-width text-capitalize">
-                                <mat-select name="selectedAssignee" [(ngModel)]="selectedAssignee" multiple>
-                                  <mat-option class="text-capitalize" *ngFor="let user of users" [value]="user" >
+                            <label>Assignee:</label>
+                            <select [(ngModel)]="selectedAssignee" name="selectedAssignee" class="form-control" required
+                                autofocus>
+                                <option *ngFor="let user of users" [value]="user">
                                     <!-- <mat-option class="text-capitalize" *ngFor="let user of users" [value]="user" [disabled]="anotherList.includes(user)"> -->
                                     {{user.name}}
-                                  </mat-option>
-                                </mat-select>
-                              </mat-form-field>
+                                </option>
+                            </select>
+
                         </div>
-    
-    
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
                         <div class="form-group">
                             <label>Status</label>
-                            <select [(ngModel)]="currentIssue.status" name="issueStatus"  class="form-control" required autofocus>
-    
+                            <select [(ngModel)]="currentIssue.status" name="issueStatus" class="form-control" required
+                                autofocus>
+
                                 <option *ngFor="let status of statuslist" [value]="status">{{status}}</option>
                             </select>
                         </div>
-                      
-                        <div class="form-group">
-                                <label>Description:</label>
-                <app-ngx-editor name="issueDescription" [config]="editorConfig" [spellcheck]="true" [(ngModel)]="currentIssue.Description"></app-ngx-editor>
-                            <!-- <quill-editor [style]="{height: '130px'}" [(ngModel)]="issueDescription"
-                                [options]="editorConfig"  >
-                            </quill-editor> -->
-                        </div>
-    
-                        <p>
-                            <button type="submit" [disabled]="!editIssueForm.valid">Submit</button>
-                        </p>
-    
-                    </form>
-
-                    <button mat-fab color="primary" (click)="addWatchee()" *ngIf="userId !== currentIssue.reporter[0].userId  && !currentIssue.assignee.includes(userId)">
-                            <mat-icon>visiblity</mat-icon>
-                          </button>
-
-                    <!-- <mat-icon onclick="addWatchee($event)">visiblity</mat-icon> -->
-                    <label>Comment:</label>
-
-                    <form #commentForm="ngForm" (ngSubmit)="addComment()">
-                    <mat-form-field class="example-full-width">
-                        <textarea matInput placeholder="Issue Description" [(ngModel)]="issueComment"
-                            name="issueComment" required autofocus></textarea>
-                    </mat-form-field> 
-
-                    <p>
-                        <button type="submit" [disabled]="!commentForm.valid">Post</button>
-                    </p>
-
-                    </form>
-
-                    <div fxLayout="column" *ngIf="currentIssue">
-
-                           <div *ngIf="currentIssue.comments?.length!=undefined && currentBlog.comments.length>0">
-                            <span *ngFor="let com of currentBlog.comments">
-                                
-                                <p>{{com.userName}}:</p>
-                                <br>
-                                <p>{{com.comment}}</p>
-                            
-                            </span>
-                        
-                        </div>
-
                     </div>
 
 
+
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <label>Description:</label>
+
+                            <app-ngx-editor name="issueDescription" [config]="editorConfig" [spellcheck]="true"
+                                [(ngModel)]="currentIssue.Description"></app-ngx-editor>
+
+                        </div>
+                    </div>
+
+                        <div class="button1">
+                    
+                        <button type="submit" [disabled]="!editIssueForm.valid">Submit</button>
+                    </div>
+
                 </div>
-            </div>
-    
-        </div>
-    </section>
+            
+        </form>
+    </div>
+</section>
+
+
+<!-- <mat-icon onclick="addWatchee($event)">visiblity</mat-icon> -->
+
+
+<form #commentForm="ngForm" (ngSubmit)="addComment()">
+    <div class="form-group">
+        <label>Comment:</label>
+        <textarea matInput placeholder="Enter Comment" [(ngModel)]="issueComment" name="issueComment" required
+            autofocus></textarea>
+    </div>
+
+    <p>
+        <button type="submit" [disabled]="!commentForm.valid">Post</button>
+    </p>
+
+</form>
+
+<div fxLayout="column" *ngIf="currentIssue">
+
+    <div *ngIf="currentIssue.comments?.length!=undefined && currentIssue.comments.length>0">
+        <span *ngFor="let com of currentIssue.comments">
+
+            <p>{{com.userName}}:</p>
+            <br>
+            <p>{{com.comment}}</p>
+
+        </span>
+
+    </div>
+
+</div>

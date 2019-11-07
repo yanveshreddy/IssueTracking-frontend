@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import {Location} from '@angular/common';
 import { FormControl } from '@angular/forms';
+
 //import { FormBuilder } from '@angular/forms';
 
 @Component({
@@ -25,8 +26,8 @@ export class IssueViewComponent implements OnInit {
   name:string;
 
   public issueComment;
-  public selectedAssignee=[];
-
+  public selectedAssignee;
+  changeText: boolean;
   public editorConfig = {
     "editable": true,
     "spellcheck": true,
@@ -50,7 +51,14 @@ export class IssueViewComponent implements OnInit {
   }
 
   assigneeControl=new FormControl();
-  constructor(public appService: AppService, private _route: ActivatedRoute, private router: Router, public toastr: ToastrService,public snackBar:MatSnackBar,private location:Location) { }
+  constructor(
+    public appService: AppService,
+     private _route: ActivatedRoute, 
+     private router: Router,
+      public toastr: ToastrService,
+      public snackBar:MatSnackBar,
+      private location:Location
+      ) { }
 
   ngOnInit() {
 
@@ -58,7 +66,7 @@ export class IssueViewComponent implements OnInit {
     this.name = `${this.appService.getUserInfoFromLocalstorage().firstName} ${this.appService.getUserInfoFromLocalstorage().lastName}`
 
     this.getALLUsers();
-    
+    this.changeText=false;
     this.currentIssueId = this._route.snapshot.paramMap.get("issueId");
 
      this.appService.getIssueData(this.currentIssueId).subscribe(
@@ -67,16 +75,8 @@ export class IssueViewComponent implements OnInit {
         this.currentIssue = data["data"];
         console.log("Anvesh");
         console.log(this.currentIssue);
-        this.currentIssue.assignee.forEach(element => {
-          
-          this.selectedAssignee.push(element.name);
-          });
-         
-          console.log("annnnnnnnnnnnnnnvvvvvvvvvvveeeeeee"+this.selectedAssignee)
-
-        
-        this.assigneeControl.setValue(this.selectedAssignee);
-      
+        this.selectedAssignee=this.currentIssue.assignee[0].name;
+        console.log(this.selectedAssignee)
       },
       error => {
         console.log(error.errormessage);
@@ -84,6 +84,7 @@ export class IssueViewComponent implements OnInit {
     )
     //console.log("annnnnnnnnnnnnnnvvvvvvvvvvveeeeeee"+ this.currentIssue)
    //end of getALLUsers
+  
   
   }
 public getALLUsers() {
@@ -98,9 +99,9 @@ public getALLUsers() {
               name: `${x.firstName} ${x.lastName}`,
               userId: x.userId
             }
-            if (x.userId != this.userId) {
+           
               this.users.push(userObj)
-            }
+            
           })
         }, 2000);
 

@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 //import {TableModule} from 'primeng/table';
 import { SelectItem } from 'primeng/components/common/selectitem';
 //import { Row } from 'primeng/components/common/shared';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-my-issues',
@@ -28,7 +29,7 @@ public myissues;
 
   //yearTimeout: any;
 
-  constructor(public appservice: AppService,private _route: ActivatedRoute, private router: Router) { }
+  constructor(public appservice: AppService,private _route: ActivatedRoute, private router: Router, public toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -73,5 +74,4 @@ public myissues;
     this.router.navigate(['/issue/'+ event.data.issueId]);
     
 }
-
 }

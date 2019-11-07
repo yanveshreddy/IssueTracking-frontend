@@ -28,7 +28,8 @@
           (input)="dt.filter($event.target.value, col.field, 'contains')">
         <p-dropdown *ngSwitchCase="'status'" [options]="statusvalues" [style]="{'width':'100%'}"
           (onChange)="dt.filter($event.value, col.field, 'equals')"></p-dropdown>
-        <input *ngSwitchCase="'reporter'"  pInputText type="text"
+
+        <input *ngSwitchCase="'reportername'"  pInputText type="text"
           (input)="dt.filter($event.target.value, col.field, 'contains')">
 
       </th>
