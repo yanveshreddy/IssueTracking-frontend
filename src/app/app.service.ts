@@ -144,11 +144,12 @@ export class AppService {
     //let name = `${this.getUserInfoFromLocalstorage().firstName} ${this.getUserInfoFromLocalstorage().lastName}`
    // let userId = this.getUserInfoFromLocalstorage().userId
    let comments = [];
-
+   let date: Date = new Date();
     let commenterObj = {
-      userId: data.commenterId,
-      name: data.commenterName,
-      comment:data.comment
+      userId: data.userId,
+      name: data.name,
+      comment:data.comment,
+      date: date
     }
 
     comments.push(commenterObj);
@@ -161,6 +162,7 @@ export class AppService {
       return this._http.put(`${this.url}/api/v1/issues/${currentIssueID}/addComment?authToken=${Cookie.get('authToken')}`,params)
 
     }
+
     public addWatchee=(data):any =>{
 
       let currentIssueID=data.issueId;
@@ -168,15 +170,16 @@ export class AppService {
    // let userId = this.getUserInfoFromLocalstorage().userId
    let watchers = [];
     let watcherObj = {
-      watcherId: data.watcherId,
-      watcherName: data.watcherName
+      userId: data.userId,
+      name: data.name
     }
+
     watchers.push(watcherObj);
 
     // stringify the object for sending
     let watchersArray = JSON.stringify(watchers)
     const params = new HttpParams()
-    .set('comments', watchersArray)
+    .set('watchers', watchersArray)
 
       return this._http.put(`${this.url}/api/v1/issues/${currentIssueID}/addWatchee?authToken=${Cookie.get('authToken')}`,params)
 
